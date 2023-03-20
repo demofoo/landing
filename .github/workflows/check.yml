@@ -12,6 +12,9 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./landing
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@1f99358870fe1c846a3ccba386cc2b2246836776 # v2.2.1
@@ -25,14 +28,15 @@ jobs:
           node-version: "18.14.1"
           cache: 'npm'
       - name: Install dependencies
-        working-directory: ./landing
         run: npm ci
       - name: Lint
-        working-directory: ./landing
         run: npm run lint
 
   docker-build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./landing
     needs: build
     steps:
       - name: Harden Runner
@@ -42,5 +46,4 @@ jobs:
 
       - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f # v3.4.0
       - name: Build the Docker image
-        working-directory: ./landing
         run: docker build . --file Dockerfile --tag ulisesgascon/demo-foo-landing
