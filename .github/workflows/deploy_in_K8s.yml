@@ -29,16 +29,22 @@ jobs:
       with:
         token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}     
 
-    - name: Update deployment file
-      env:
-        RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
-      run: sed -i 's|<IMAGE>|ulisesgascon/demo-foo-landing:'${RELEASE_VERSION}'|' $GITHUB_WORKSPACE/k8s/deployment.yml
-
     - name: Save DigitalOcean kubeconfig with short-lived credentials
       run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 k8s-ulises-gascon
 
-    - name: Deploy to DigitalOcean Kubernetes
-      run: kubectl apply -f $GITHUB_WORKSPACE/k8s/deployment.yml
+    - name: Update landing deployment file
+      env:
+        RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
+      run: sed -i 's|<IMAGE>|ulisesgascon/demo-foo-landing:'${RELEASE_VERSION}'|' $GITHUB_WORKSPACE/k8s/landing-deployment.yml
 
-    - name: Verify deployment
+    - name: Deploy Landing to DigitalOcean Kubernetes
+      run: kubectl apply -f $GITHUB_WORKSPACE/k8s/landing-deployment.yml
+
+    - name: Verify Landing deployment
       run: kubectl rollout status deployment/demo-foo-landing
+
+    - name: Deploy API to DigitalOcean Kubernetes
+      run: kubectl apply -f $GITHUB_WORKSPACE/k8s/api-deployment.yml
+
+    - name: Verify API deployment
+      run: kubectl rollout status deployment/api-demo-foo
