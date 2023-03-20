@@ -30,7 +30,6 @@ docker run -p 80:80  ulisesgascon/demo-foo-landing:latest
 
 ## Development
 
-
 ### Install
 
 ```bash
