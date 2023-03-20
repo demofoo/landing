@@ -26,11 +26,11 @@ spec:
           image: <IMAGE>
           ports:
           - containerPort: 3000
-          resources:
-            requests:
-              cpu: 500m
-            limits:
-              cpu: 500m
+          # resources:
+          #   requests:
+          #     cpu: 500m
+          #   limits:
+          #     cpu: 500m
           livenessProbe:
             httpGet:
               path: /api/__/health
