@@ -1,0 +1,44 @@
+name: 🚀 Deploy in k8s
+on:
+  workflow_run:
+    workflows: ["🐳 Docker Release"]
+    types: 
+      - completed
+permissions:
+  contents: read
+
+jobs:
+
+  deploy-in-k8s:
+
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set output
+      id: vars
+      run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+    - name: Check output
+      env:
+        RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
+      run: |
+        echo $RELEASE_VERSION
+        echo ${{ steps.vars.outputs.tag }}
+
+    - name: Install doctl
+      uses: digitalocean/action-doctl@v2
+      with:
+        token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}     
+
+    - name: Update deployment file
+      env:
+        RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
+      run: sed -i 's|<IMAGE>|ulisesgascon/demo-foo-landing:'${RELEASE_VERSION}'|' $GITHUB_WORKSPACE/k8s/deployment.yml
+
+    - name: Save DigitalOcean kubeconfig with short-lived credentials
+      run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 k8s-ulises-gascon
+
+    - name: Deploy to DigitalOcean Kubernetes
+      run: kubectl apply -f $GITHUB_WORKSPACE/k8s/deployment.yml
+
+    - name: Verify deployment
+      run: kubectl rollout status deployment/demo-foo-landing
