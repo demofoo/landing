@@ -25,7 +25,7 @@ spec:
         - name: demo-foo-landing
           image: <IMAGE>
           ports:
-          - containerPort: 3000
+          - containerPort: 80
           # resources:
           #   requests:
           #     cpu: 500m
@@ -34,7 +34,7 @@ spec:
           livenessProbe:
             httpGet:
               path: /
-              port: 3000
+              port: 80
             initialDelaySeconds: 3
             periodSeconds: 3
             failureThreshold: 2
@@ -61,7 +61,7 @@ metadata:
     kubernetes.io/ingress.class: nginx
 spec:
   rules:
-  - host: "demo.ulisesgascon.com"
+  - host: "foo.ulisesgascon.com"
     http:
       paths:
       - pathType: Prefix
