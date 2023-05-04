@@ -8,5 +8,5 @@
 ## Current Projects:
 
 - [Landing](https://demo.foo)
-- [Art](/art)
+- [Art](https://github.com/demofoo/art)
 - [API](https://github.com/UlisesGascon/simple-api)
