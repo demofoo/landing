@@ -16,7 +16,7 @@ To build and run the container locally:
 
 ```bash
 # Clone Repo:
-git clone https://github.com/ulisesgascon/demo-foo-landing.git
+git clone https://github.com/demofoo/landing.git
 
 # Change to repo's cloned directory:
 cd demo-foo-landing

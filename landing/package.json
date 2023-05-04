@@ -16,14 +16,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/UlisesGascon/demo.foo.git"
+    "url": "git+https://github.com/demofoo/landing.git"
   },
   "author": "Ulises Gascón",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/UlisesGascon/demo.foo/issues"
+    "url": "https://github.com/demofoo/landing/issues"
   },
-  "homepage": "https://github.com/UlisesGascon/demo.foo#readme",
+  "homepage": "https://github.com/demofoo/landing#readme",
   "devDependencies": {
     "@linthtml/linthtml": "0.9.4",
     "http-server": "14.1.1",
